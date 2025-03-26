@@ -22,11 +22,11 @@ import TrendingCard from '@/components/TrendingCard';
 const Index = () => {
   const router = useRouter();
 
-  // const {
-  //   data: trendingMovies,
-  //   loading: trendingLoading,
-  //   error: trendingError,
-  // } = useFetch(getTrendingMovies);
+  const {
+    data: trendingMovies,
+    loading: trendingLoading,
+    error: trendingError,
+  } = useFetch(getTrendingMovies);
 
   const {
     data: movies,
@@ -48,16 +48,18 @@ const Index = () => {
         contentContainerStyle={{ minHeight: '100%', paddingBottom: 10 }}
       >
         <Image source={icons.logo} className="w-12 h-10 mt-20 mb-5 mx-auto" />
-
-        {moviesLoading ? (
+        {/* loading */}
+        {moviesLoading && (
           <ActivityIndicator
             size="large"
             color="#0000ff"
             className="mt-10 self-center"
           />
-        ) : moviesError ? (
-          <Text>Error: {moviesError?.message}</Text>
-        ) : (
+        )}
+        {/* error */}
+        {moviesError && <Text>Error: {moviesError?.message}</Text>}
+        {/* movies */}
+        {movies && (
           <View className="flex-1 mt-5">
             <SearchBar
               onPress={() => {
@@ -66,7 +68,7 @@ const Index = () => {
               placeholder="Search for a movie"
             />
 
-            {/* {trendingMovies && (
+            {trendingMovies && (
               <View className="mt-10">
                 <Text className="text-lg text-white font-bold mb-3">
                   Trending Movies
@@ -82,11 +84,12 @@ const Index = () => {
                   renderItem={({ item, index }) => (
                     <TrendingCard movie={item} index={index} />
                   )}
-                  keyExtractor={(item) => item.movie_id.toString()}
+                  // keyExtractor={(item) => item.movie_id.toString()}
+                  keyExtractor={(item, index) => index.toString()}
                   ItemSeparatorComponent={() => <View className="w-4" />}
                 />
               </View>
-            )} */}
+            )}
 
             <>
               <Text className="text-lg text-white font-bold mt-5 mb-3">
@@ -100,7 +103,7 @@ const Index = () => {
                 numColumns={3}
                 columnWrapperStyle={{
                   justifyContent: 'flex-start',
-                  gap: 20,
+                  gap: 16,
                   paddingRight: 5,
                   marginBottom: 10,
                 }}
